@@ -1,0 +1,51 @@
+﻿    #region GoodStyle
+
+    public enum LoggerType
+    {
+        File,
+        Db
+    }
+    public class LoggerFactory
+    {
+        public static ILogger GetLogger(LoggerType loggerType)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public interface ILogger
+    {
+        void Log(string error);
+    }
+
+    public class FileLogger : ILogger
+    {
+        public void Log(string error)
+        {
+            File.WriteAllText(@"C:\Error.txt", error);
+        }
+    }
+
+    public class EventLogger : ILogger
+    {
+        public void Log(string error)
+        {
+            string source = "DDD Course";
+            string log = "Application";
+
+            if (!EventLog.SourceExists(source))
+            {
+                EventLog.CreateEventSource(source, log);
+            }
+            EventLog.WriteEntry(source, error, EventLogEntryType.Error, 1);
+        }
+    }
+
+    public class DatabaseLogger : ILogger
+    {
+        public void Log(string error)
+        {
+            //Log To DB
+        }
+    }
+
+    #endregion

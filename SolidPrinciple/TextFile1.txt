@@ -1,0 +1,52 @@
+﻿    #region GoodStyle1
+
+    class CustomerServiceGoodWay1
+    {
+        private FileLogger logger = new FileLogger();
+        private readonly CustomerRepository _repository = new CustomerRepository();
+        void CreateCustomer(object customer)
+        {
+            try
+            {
+                _repository.Add(customer);
+            }
+            catch (Exception ex)
+            {
+                logger.Log(ex.ToString());
+            }
+        }
+    }
+
+    #endregion
+
+
+
+
+
+    #region GoodStyle2
+
+    class CustomerServiceGoodWay2
+    {
+        private ILogger _logger ;
+        private readonly ICustomerRepository _repository;
+
+        public CustomerServiceGoodWay2(ILogger logger, ICustomerRepository repository)
+        {
+            _logger = logger;
+            _repository = repository;
+        }
+
+        void CreateCustomer(Customer customer)
+        {
+            try
+            {
+                _repository.Add(customer);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.ToString());
+            }
+        }
+    }
+
+    #endregion
